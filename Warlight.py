@@ -164,14 +164,14 @@ class Bot(object):
         Currently keeps places a maximum of two troops on random regions.
         '''
         placements = []
-
-        owned_regions = self.map.get_owned_regions(self.settings['your_bot'])
-        shuffled_regions = Random.shuffle(Random.shuffle(owned_regions))
-
-        troops_remaining = int(self.settings['starting_armies'])
         region_index = 0
-
-        while troops_remaining > 0:
+        troops_remaining = int(self.settings['starting_armies'])
+        
+        owned_regions = self.map.get_owned_regions(self.settings['your_bot'])
+        duplicated_regions = owned_regions * (3 + int(troops_remaining / 2))
+        shuffled_regions = Random.shuffle(duplicated_regions)
+        
+        while troops_remaining:
 
             region = shuffled_regions[region_index]
             
@@ -278,7 +278,6 @@ class Region(object):
         self.neighbours = []
         self.troop_count = 2
         self.super_region = super_region
-        self.is_on_empire_border = False
         self.is_on_super_region_border = False
 
 class Random(object):
