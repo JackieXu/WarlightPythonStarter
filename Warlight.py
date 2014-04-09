@@ -140,7 +140,13 @@ class Bot(object):
     def update_map(self, options):
         '''
         Method to update our map every round.
+        
+        Sets all owned regions to opponents and updates over it to check for
+        stolen regions.
         '''
+        for region in self.map.get_owned_regions(self.settings['your_bot']):
+            region.owner = self.settings['opponent_bot']
+            
         for i in range(0, len(options), 3):
             
             region = self.map.get_region_by_id(options[i])
